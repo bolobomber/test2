@@ -139,7 +139,7 @@ function draw() {
 
     gl.bindTexture(gl.TEXTURE_2D, texture);
     gl.uniform1f(shProgram.iscale, scale);
-    gl.uniformMatrix4fv(shProgram.iModelViewMatrix, false, matAccumLeft,getRotationMatrix());
+    gl.uniformMatrix4fv(shProgram.iModelViewMatrix, false, matAccumLeft, getRotationMatrix());
     gl.uniformMatrix4fv(shProgram.iProjectionMatrix, false, projectionLeft, getRotationMatrix());
     gl.colorMask(false, true, true, false);
     surface.Draw();
@@ -268,7 +268,6 @@ function parabola(u, t) {
 
 
 function initGL() {
-    readGyroscope();
     let prog = createProgram(gl, vertexShaderSource, fragmentShaderSource);
 
     shProgram = new ShaderProgram('Basic', prog);
@@ -476,76 +475,3 @@ let sensorFusion = {
       0, 0, 0, 1
     ];
   };
-
-  function userInit() {
-    requestDeviceOrientationPermission();
-}
-
-function requestDeviceOrientationPermission() {
-    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === "function") {
-        DeviceOrientationEvent.requestPermission()
-            .then(function (permissionState) {
-                if (permissionState === "granted") {
-                    readGyroscope();
-                } else {
-                    alert("Device orientation permission not granted");
-                }
-            })
-            .catch(function (error) {
-                console.error("Error requesting device orientation permission:", error);
-            });
-    } else if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === "function") {
-        DeviceMotionEvent.requestPermission()
-            .then(function (permissionState) {
-                if (permissionState === "granted") {
-                    readGyroscope();
-                } else {
-                    alert("Device motion permission not granted");
-                }
-            })
-            .catch(function (error) {
-                console.error("Error requesting device motion permission:", error);
-            });
-    } else {
-        // No requestPermission function, so we assume permission is granted by default (non-iOS 13+)
-        readGyroscope();
-    }
-}
-
-function readGyroscope() {
-    if (window.DeviceOrientationEvent) {
-        timeStamp = Date.now();
-        window.addEventListener("deviceorientation", function (event) {
-            // Convert degrees to radians
-            const newAlpha = (event.alpha * Math.PI) / 180;
-            const newBeta = (event.beta * Math.PI) / 180;
-            const newGamma = (event.gamma * Math.PI) / 180;
-
-            // Apply low-pass filter (EMA) with a chosen smoothing factor (0.1 to 0.9)
-            const smoothingFactor = 0.5;
-            filteredAlpha = lowPassFilterEMA(newAlpha, filteredAlpha, smoothingFactor);
-            filteredBeta = lowPassFilterEMA(newBeta, filteredBeta, smoothingFactor);
-            filteredGamma = lowPassFilterEMA(newGamma, filteredGamma, smoothingFactor);
-
-            // Display values
-            document.getElementById("alphaValue").textContent = event.alpha.toFixed(2);
-            document.getElementById("betaValue").textContent = event.beta.toFixed(2);
-            document.getElementById("gammaValue").textContent = event.gamma.toFixed(2);
-        });
-    } else {
-        alert("DeviceOrientationEvent is not supported");
-    }
-
-    if (window.DeviceMotionEvent) {
-        window.addEventListener("devicemotion", function (event) {
-            x = event.rotationRate.alpha;
-            y = event.rotationRate.beta;
-            z = event.rotationRate.gamma;
-        });
-    } else {
-        alert("DeviceMotionEvent is not supported");
-    }
-}
-function lowPassFilterEMA(newValue, oldValue, alpha) {
-    return alpha * newValue + (1 - alpha) * oldValue;
-}
