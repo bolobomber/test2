@@ -5,80 +5,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 
-    <title>PA1</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <title>PA#2</title>
     <style>
         body {
-            background-color: #f4f4f4;
-            font-family: 'Roboto', sans-serif;
-        }
-
-        input[type=range] {
-            margin:20px;
-            width: 300px;
-        }
-
-        input[type=range]::-webkit-slider-runnable-track {
-            width: 300px;
-            height: 5px;
-            background: #ddd;
-            border: none;
-            border-radius: 3px;
-        }
-
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            border: none;
-            height: 16px;
-            width: 16px;
-            border-radius: 50%;
-            background: #4285f4;
-            margin-top: -4px;
-        }
-
-        h2 {
-            color: #222;
-            font-weight: 400;
-            font-size: 36px;
-            text-align: center;
-            margin-top: 40px;
-        }
-
-        h3 {
-            color: #666;
-            font-size: 24px;
-            font-weight: 300;
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        #message {
-            color: #666;
-            font-size: 16px;
-            font-weight: 300;
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .slider-title {
-            color: #666;
-            font-size: 20px;
-            font-weight: 300;
-            margin-right: 10px;
-        }
-
-        .slider-value {
-            color: #666;
-            font-size: 20px;
-            font-weight: 300;
-            margin-left: 10px;
-        }
-
-        #canvas-holder {
-            margin-top: 20px;
-            text-align: center;
+            background-color: #EEEEEE;
         }
     </style>
 
@@ -90,32 +20,49 @@
 </head>
 
 <body onload="init()">
-    <h3>Методи синтезу ВР 1</h3>
-    <h3><b>A Surface of Revolution of a Parabola of Arbitrary Position</b></h3>
-    <div style=" padding-left: 20px;">
-        <div style="padding-top: 5px;">
-            <span class="slider-title">Eye separation</span>
-            <input id="eyes" type="range" min="0" max="200" step="1" value="60">
-            <span class="slider-value">0</span>
-        </div>
-        <div style="padding-top: 5px;">
-            <span class="slider-title">Field of View</span>
-            <input id="fov" type="range" min="0.25" max="3.14" step="0.02" value="0.75">
-            <span class="slider-value">0</span>
-        </div>
-        <div style="padding-top: 5px;">
-            <span class="slider-title">Near Clipping distance</span>
-            <input id="near" type="range" min="1" max="21" step="0.25" value="10">
-            <span class="slider-value">0</span>
-        </div>
-        <div style="padding-top: 5px;">
-            <span class="slider-title">Convergence</span>
-            <input id="conv" type="range" min="400" max="3000" step="10" value="1000">
-            <span class="slider-value">0</span>
-        </div>
+
+    <h1>Practical Assignment 2</h1>
+    <h2>Sosnovenko Vadym TR-21mp</h2>
+    <h2>24 Variant</h2>
+    <h2>Twice oblique trochoid cylindroid</h2>
+
+    <p id="message">Drag your mouse on the cube to rotate it.<br>
+        (On a touch screen, you can use your finger.)</p>
+
+    <div>
+        <style>
+            input {
+                width: 580px;
+            }
+        </style>
+        <p>Eye Separation: 0 to 1200
+        <p>
+        <p>
+            <label for="EyeSeparation">Eye Separation:</label>
+            <input id="EyeSeparation" type="range" min="0" max="1200" step="10" onchange="rerender()" />
+        </p>
+        <p>Field Of View: 0 to PI
+        <p></p>
+        <p>
+            <label for="FieldOfView">Field Of View:</label>
+            <input id="FieldOfView" type="range" min="0" max="3.15" step="0.15" value="0.8" onchange="rerender()" />
+        </p>
+        <p>Near Clipping Distance: -1 to 5
+        <p></p>
+        <p>
+            <label for="NearClippingDistance">Near Clipping Distance:</label>
+            <input id="NearClippingDistance" type="range" min="-1" max="5" step="0.1" value="2.5" onchange="rerender()" />
+        </p>
+        <p>Convergence: 500 to 2500
+        <p></p>
+        <p>
+            <label for="Convergence">Convergence:</label>
+            <input id="Convergence" type="range" min="500" max="2500" step="100" onchange="rerender()" />
+        </p>
     </div>
+
     <div id="canvas-holder">
-        <canvas width="600" height="600" id="webglcanvas"></canvas>
+        <canvas width="600" height="600" id="webglcanvas" style="background-color:red"></canvas>
     </div>
 
 

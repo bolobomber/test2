@@ -140,7 +140,7 @@ function draw() {
     gl.bindTexture(gl.TEXTURE_2D, texture);
     gl.uniform1f(shProgram.iscale, scale);
     gl.uniformMatrix4fv(shProgram.iModelViewMatrix, false, matAccumLeft,getRotationMatrix());
-    gl.uniformMatrix4fv(shProgram.iProjectionMatrix, false, projectionLeft,getRotationMatrix());
+    gl.uniformMatrix4fv(shProgram.iProjectionMatrix, false, projectionLeft, getRotationMatrix());
     gl.colorMask(false, true, true, false);
     surface.Draw();
 
